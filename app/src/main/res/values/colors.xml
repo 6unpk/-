@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#79aeda</color>
+    <color name="colorPrimaryDark">#79aeda</color>
+    <color name="colorAccent">#0f0b30</color>
+    <color name="search_bar">#79aeda</color>
+    <color name="search_bar_icon">#5e88dc</color>
+    <color name="main_color">#e62117</color>
+    <color name="listBackground">#f5f5f5</color>
+    <color name="tagBackground">#5e88dc</color>
+    <color name="listTextColor">#000000</color>
+    <color name="background">#d6dbe1</color>
+</resources>
+

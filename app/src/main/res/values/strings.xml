@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">느갤 뷰어(Your Name Gallery Viewer)</string>
+    <string name="progressbar_loading">Loading</string>
+    <string name="searching">Search</string>
+    <string name="check_network">check your network</string>
+    <string name="like">Favorite</string>
+    <string name="setting">Setting</string>
+    <string name="tag">Tag List</string>
+    <string name="exit">Click once more back key if you want to exit</string>
+    <string name="select_title">Select</string>
+    <string name="select_add_tag">Add Tag</string>
+    <string name="select_list_add_bookmark" translatable="false">Add Book Mark</string>
+    <string name="no_video">No video to load</string>
+    <string name="selected">selected</string>
+    <string name="okay">OK</string>
+    <string name="cancel">cancel</string>
+    <string name="all_select">select all</string>
+    <string name="viewing">Viewing Content</string>
+    <string name="download" translatable="false">다운로드 목록</string>
+    <string name="version" translatable="false">느갤 뷰어 Ver 1.0</string>
+</resources>

@@ -1,0 +1,84 @@
+ public void get_List() throws IOException{
+        new Thread(){
+
+            @Override
+            public void run() {
+                int location = 0;
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog = ProgressDialog.show(MainActivity.this, "", "정보를 가져오는중 입니다.");
+                    }
+                }, 0);
+
+                try {
+                    url = new URL("http://info.jinhak.com/HOTIpsiInfo/NewsList.aspx");
+                    url2 = new URL("http://info.jinhak.com/HOTIpsiInfo/IpsiInfoList.aspx?SubCategoryCode=010&CategoryCode=03&LocationCode=22");
+                    Html = url.openStream();
+                    Html2 = url2.openStream();
+                    source = new Source(new InputStreamReader(Html, "euc-kr"));
+                    source2 = new Source(new InputStreamReader(Html2, "euc-kr"));
+                    source.fullSequentialParse();
+                    source2.fullSequentialParse();
+                } catch (Exception e) {
+                    Log.e("tag", e.toString());
+                }
+
+                List<StartTag> tagList = source.getAllStartTags(HTMLElementName.TABLE);
+
+
+                for (int i = 0; i < tagList.size(); i++)
+                    if (tagList.get(i).toString().equals("<table cellspacing=\"0\" class=\"boardlist1\" summary=\"게시글 목록\">")) {
+                        location = i;
+                        break;
+                    }
+
+
+                net.htmlparser.jericho.Element Table = source.getAllElements(HTMLElementName.TABLE).get(location);
+                net.htmlparser.jericho.Element tBody = Table.getAllElements(HTMLElementName.TBODY).get(0);
+
+                net.htmlparser.jericho.Element Table2 = source2.getAllElements(HTMLElementName.TABLE).get(0);
+                net.htmlparser.jericho.Element tBody2 = Table2.getAllElements(HTMLElementName.TBODY).get(0);
+
+                sites = new String[tBody.getAllElements(HTMLElementName.TR).size()];
+                sites2 = new String[tBody.getAllElements(HTMLElementName.TR).size()];
+                for(int j = 0; j < tBody.getAllElements(HTMLElementName.TR).size(); j++) {
+                    try {
+                        Log.d("tag",j+"");
+                        net.htmlparser.jericho.Element TR = tBody.getAllElements(HTMLElementName.TR).get(j);
+                        net.htmlparser.jericho.Element source2_TR  =tBody2.getAllElements(HTMLElementName.TR).get(j);
+
+                        net.htmlparser.jericho.Element TD = TR.getAllElements(HTMLElementName.TD).get(2);
+                        net.htmlparser.jericho.Element source2_TD = source2_TR.getAllElements(HTMLElementName.TD).get(2);
+
+                        net.htmlparser.jericho.Element TD2 = TR.getAllElements(HTMLElementName.TD).get(3);
+                        net.htmlparser.jericho.Element source2_TD2 =source2_TR.getAllElements(HTMLElementName.TD).get(3);
+
+                        net.htmlparser.jericho.Element A = TD.getAllElements(HTMLElementName.A).get(0);
+                        net.htmlparser.jericho.Element source2_A = source2_TD.getAllElements(HTMLElementName.A).get(0);
+
+                        sites[j] = A.getAttributeValue("href");
+                        sites2[j] = source2_A.getAttributeValue("href");
+
+                        cardviewItems.add(new CardviewItem(A.getContent().toString(), TD2.getContent().toString()));
+                        cardviewItems2.add(new CardviewItem(source2_A.getContent().toString(),source2_TD2.getContent().toString()));
+
+                    }
+                    catch (Exception e){
+                        Log.e("tagError",e.toString());
+                    }
+                }
+
+                Handler mhandler = new Handler(Looper.getMainLooper());
+                mhandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Rv_adapter.notifyDataSetChanged();
+                        Rv_adapter2.notifyDataSetChanged();
+                        progressDialog.dismiss();
+                    }
+                }, 0);
+            }
+        }.start();
+    }
